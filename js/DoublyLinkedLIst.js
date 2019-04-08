@@ -1,7 +1,7 @@
 class Node {
   constructor(element) {
     this.element = element;
-    this.pre = null;
+    this.prev = null;
     this.next = null;
   }
 }
@@ -15,17 +15,19 @@ class DoublyLinkedList {
 
   append(element) {
     let current = this.head;
-    let newNode = new Node(element);
+    let node = new Node(element);
     if (this.head === null) {
-      this.head = newNode;
+      this.head = node;
+      this.tail = node;
       this.length++;
       return;
     }
     while (current.next !== null) {
       current = current.next;
     }
-    current.next = newNode;
-    newNode.pre = current;
+    current.next = node;
+    node.prev = current;
+    this.tail = node;
     this.length++;
   }
 
@@ -45,9 +47,9 @@ class DoublyLinkedList {
   //   if (current === -1) {
   //     return -1;
   //   }
-  //   let newNode = new Node(newElement);
-  //   current.next = newNode;
-  //   newNode.pre = current;
+  //   let node = new Node(newElement);
+  //   current.next = node;
+  //   node.prev = current;
   //   this.length++;
   // }
 
@@ -65,22 +67,61 @@ class DoublyLinkedList {
   }
 
   // achieve by self
+  // 这种方式考虑不全面
   insert(position, element) {
     let current = this.findByIndex(position);
     if (!current) {
       return false;
     }
-    let newNode = new Node(element);
-    let tmpNode = current.next;
-    current.next = newNode;
-    newNode.pre = current;
-    newNode.next = tmpNode;
+    let node = new Node(element);
+    let tmpNode = current.next;   // 
+    node.next = current;
+    current.prev = node;
     this.length++;
-    if(tmpNode===null){
+    if (tmpNode === null) {   // 
       return true
     }
-    tmpNode.pre = newNode;
+    tmpNode.prev = node;
     return true;
+  }
+
+  // according to book
+  insertRef(position, element) {
+    if (position > -1 && position <= this.length) {
+      let node = new Node(element);
+      let current = this.head;
+      if (!this.head) {
+        this.head = node;
+        this.tail = node;
+        this.length++;
+        return;
+      }
+      if (position === 0) {
+        node.next = current;
+        current.prev = node;
+        this.head = node;
+      } else if (position === this.length) {
+        this.tail.next = node;
+        node.prev = this.tail;
+        this.tail = node;
+      } else {
+        let index = 0;
+        while (current && index !== position) {
+          current = current.next;
+          index++;
+        }
+        current.prev.next = node;
+        node.prev = current.prev;
+        node.next = current;
+        current.prev = node;
+      }
+
+      this.length++;
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   toString() {
@@ -95,9 +136,13 @@ class DoublyLinkedList {
 }
 
 let list = new DoublyLinkedList();
-list.append(1);
-list.append(2);
-list.append(3);
+// list.append(1);
+// list.append(2);
+// list.append(3);
 // console.log(list.findByValue(1));
-list.insert(2, 'hello')
+// list.insert(0, 'hello');
+list.insertRef(0, 1);
+list.insertRef(1, 3);
+list.insertRef(list.length, 2);
+list.insertRef(1, 'hello');
 console.log(list.toString());
