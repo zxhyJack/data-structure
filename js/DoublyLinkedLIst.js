@@ -90,21 +90,21 @@ class DoublyLinkedList {
     if (position > -1 && position <= this.length) {
       let node = new Node(element);
       let current = this.head;
-      if (!this.head) {
+      if (!this.head) {     // 当链表为空时，插入节点既是头结点也是尾节点
         this.head = node;
         this.tail = node;
         this.length++;
         return;
       }
-      if (position === 0) {
+      if (position === 0) {   // 在链表头插入元素
         node.next = current;
         current.prev = node;
         this.head = node;
-      } else if (position === this.length) {
+      } else if (position === this.length) {  // 在链表最后插入元素
         this.tail.next = node;
         node.prev = this.tail;
         this.tail = node;
-      } else {
+      } else {                  // 在中间位置插入元素
         let index = 0;
         while (current && index !== position) {
           current = current.next;
