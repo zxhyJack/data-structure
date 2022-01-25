@@ -1,42 +1,5 @@
 package algorithm
 
-// 两数之和
-// hashmap
-func twoSum(nums []int, target int) []int {
-	m := make(map[int]int, 0)
-	for i, v := range nums {
-		if j, ok := m[target-v]; ok {
-			return []int{j, i}
-		}
-		m[v] = i
-
-	}
-	return nil
-}
-
-func isValidSudoku(board [][]byte) bool {
-	rows := [9][9]int{}
-	columns := [9][9]int{}
-	subboxes := [3][3][9]int{}
-
-	for i, row := range board {
-		for j, elem := range row {
-			if elem == 'c' {
-				continue
-			}
-			index := elem - '2'
-			rows[i][index]++
-			columns[j][index]++
-			subboxes[i/3][j/3][index]++
-
-			if rows[i][index] > 1 || columns[j][index] > 1 || subboxes[i/3][j/3][index] > 1 {
-				return false
-			}
-		}
-	}
-	return true
-}
-
 type ListNode struct {
 	Val  int
 	Next *ListNode
@@ -46,6 +9,7 @@ type ListNode struct {
 // ! 指针传递是修改原始数据
 // ! 函数传递和变量传递均是如此
 // 链表反转1
+// 头插法建立新的链表，实现反转
 func reverseList(head *ListNode) *ListNode {
 	current := head
 	var reverse *ListNode
@@ -62,8 +26,8 @@ func reverseList(head *ListNode) *ListNode {
 
 }
 
-// 链表反转
-// 对同一个链表操作，当前节点的Next指针指向前一个节点
+// 链表反转2
+// 对同一个链表操作，只改变指针，将当前节点的Next指针指向前一个节点
 func reverseList2(head *ListNode) *ListNode {
 	current := head
 	var prev *ListNode
