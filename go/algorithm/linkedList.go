@@ -10,20 +10,19 @@ type ListNode struct {
 // ! 函数传递和变量传递均是如此
 // 链表反转1
 // 头插法建立新的链表，实现反转
-func reverseList(head *ListNode) *ListNode {
+func reverseList1(head *ListNode) *ListNode {
 	current := head
 	var reverse *ListNode
 
 	for ; current != nil; current = current.Next {
 		// 取下原链表的第一个节点
 		node := *current // 拿到的是节点的**副本**而不是指针，否则对node指针操作会影响current
-		// 将取下的节点放入第二个链表（头插法）
-		node.Next = reverse
+		// fmt.Printf("node:%+v curr:%+v\n", &node.Val, &current.Val)
+		node.Next = reverse // 将取下的节点放入第二个链表（头插法）
 		reverse = &node
 	}
 
 	return reverse
-
 }
 
 // 链表反转2
@@ -36,6 +35,36 @@ func reverseList2(head *ListNode) *ListNode {
 		current.Next = prev
 		prev = current
 		current = next
+	}
+	return prev
+}
+
+// 链表反转2优化版
+func reverseList(head *ListNode) *ListNode {
+	current := head
+	var prev *ListNode
+	var next *ListNode
+
+	for ; current != nil; current = next {
+		next = current.Next
+		current.Next = prev
+		prev = current
+
+	}
+	return prev
+}
+
+// 链表反转3
+// 将原链表的节点拆下来，使用头插法放到新链表中
+// 原链表被修改了
+func reverseList3(head *ListNode) *ListNode {
+	current := head
+	var prev *ListNode
+	for current != nil {
+		node := current
+		current = current.Next
+		node.Next = prev
+		prev = node
 	}
 	return prev
 }
@@ -102,4 +131,40 @@ func mergeTwoLists2(list1 *ListNode, list2 *ListNode) *ListNode {
 		p.Next = list2
 	}
 	return dummy.Next
+}
+
+// 判断回文链表
+func isPalindrome(head *ListNode) bool {
+	// 寻找链表的中间节点
+	secondHalf := halfList(head)
+	// 反转链表的后半部分
+	secondHalfReverse := reverseList(secondHalf)
+
+	// 判断是否回文
+	p1 := head
+	p2 := secondHalfReverse
+	res := true // 保存判断的结果，避免不是回文直接返回，为了后面还原链表
+	for res && p1 != nil && p2 != nil {
+		if p1.Val != p2.Val {
+			res = false
+		}
+		p1 = p1.Next
+		p2 = p2.Next
+	}
+
+	// 还原链表
+	reverseList(secondHalfReverse)
+
+	return res
+}
+
+// 寻找链表的中点
+func halfList(head *ListNode) *ListNode {
+	fast := head
+	slow := head
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		slow = slow.Next
+	}
+	return slow
 }
