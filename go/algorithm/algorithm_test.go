@@ -76,3 +76,17 @@ func TestIsPalindrome(t *testing.T) {
 	t.Log(isPalindrome(list))
 	traverse(list)
 }
+
+func TestHasCycle(t *testing.T) {
+	list := populateList([]int{1, 2, 3, 4, 5})
+	curr := list
+	for curr.Next != nil {
+		curr = curr.Next
+	}
+	curr.Next = list
+
+	t.Log(hasCycle1(list))
+	// list2 := populateList([]int{1, 1, 1, 1})
+	// t.Log(hasCycle(list2))
+	t.Log(hasCycle2(list))
+}

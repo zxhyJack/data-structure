@@ -1,5 +1,7 @@
 package algorithm
 
+import "fmt"
+
 type ListNode struct {
 	Val  int
 	Next *ListNode
@@ -167,4 +169,34 @@ func halfList(head *ListNode) *ListNode {
 		slow = slow.Next
 	}
 	return slow
+}
+
+// 环形链表
+// 快慢指针 比较的是指针里面存储的地址
+func hasCycle1(head *ListNode) bool {
+	fast := head // 快指针
+	slow := head // 慢指针
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next // 快指针每次走两步
+		slow = slow.Next
+		fmt.Printf("%v %v %p %p\n", fast, slow, fast, slow)
+		if fast == slow {
+			return true
+		}
+	}
+	return false
+}
+
+// 环形链表
+// hashmap
+func hasCycle2(head *ListNode) bool {
+	hashmap := map[*ListNode]struct{}{}
+	for head != nil {
+		if _, ok := hashmap[head]; ok {
+			return true
+		}
+		hashmap[head] = struct{}{}
+		head = head.Next
+	}
+	return false
 }
