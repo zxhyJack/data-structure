@@ -1,5 +1,9 @@
 package algorithm
 
+import (
+	"math"
+)
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -76,4 +80,113 @@ func maxDepth3(root *TreeNode) int {
 		ans++
 	}
 	return ans
+}
+
+// 验证二叉搜索树1
+// 递归 验证节点值在所允许的范围之间
+func isValidBST1(root *TreeNode) bool {
+	return helper(root, math.MinInt64, math.MaxInt64)
+}
+
+func helper(root *TreeNode, min int, max int) bool {
+	if root == nil {
+		return true
+	}
+	if root.Val >= max || root.Val <= min {
+		return false
+	}
+	return helper(root.Left, min, root.Val) && helper(root.Right, root.Val, max)
+}
+
+// 验证二叉搜索树2
+// 非递归中序遍历，记录当前节点的前一个节点值，
+// 由前置节点值是否小于当前节点值验证二叉搜索树
+func isValidBST2(root *TreeNode) bool {
+	inorder := math.MinInt64
+	stack := []*TreeNode{}
+	for root != nil || len(stack) != 0 {
+		if root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		} else {
+			root = stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			if root.Val <= inorder {
+				return false
+			}
+			inorder = root.Val
+			root = root.Right
+		}
+	}
+	return true
+}
+
+// 验证二叉搜索树3
+// 非递归中序遍历
+func isValidBST3(root *TreeNode) bool {
+	inorder := math.MinInt64
+	stack := []*TreeNode{}
+	for root != nil || len(stack) != 0 {
+		for root != nil { // 左节点全部放入栈中
+			stack = append(stack, root)
+			root = root.Left
+		}
+		root = stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+		if root.Val <= inorder {
+			return false
+		}
+		inorder = root.Val
+		root = root.Right
+	}
+	return true
+}
+
+// 对称二叉树
+// 迭代
+func isSymmetric1(root *TreeNode) bool {
+	if root == nil {
+		return false
+	}
+	queue := []*TreeNode{}
+	queue = append(queue, root.Left, root.Right)
+	for len(queue) > 0 {
+		left := queue[0]
+		right := queue[1]
+		queue = queue[2:]
+
+		if left == nil && right == nil { // 如果都为空，则取消往队列中放节点
+			continue
+		}
+		if left == nil || right == nil {
+			return false
+		}
+		if left.Val != right.Val {
+			return false
+		}
+
+		// 对称放入队列
+		queue = append(queue, left.Left)
+		queue = append(queue, right.Right)
+		queue = append(queue, left.Right)
+		queue = append(queue, right.Left)
+	}
+	return true
+}
+
+// 对称二叉树
+// 递归
+func isSymmetric2(root *TreeNode) bool {
+	return isSymmetricHelper(root.Left, root.Right)
+}
+
+func isSymmetricHelper(left *TreeNode, right *TreeNode) bool {
+	if left == nil && right == nil {
+		return true
+	}
+	if left == nil || right == nil {
+		return false
+	}
+
+	return left.Val == right.Val && isSymmetricHelper(left.Left, right.Right) && isSymmetricHelper(left.Right, right.Left) // 此处放入的节点的顺序是对称的
 }
