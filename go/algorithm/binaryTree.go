@@ -190,3 +190,53 @@ func isSymmetricHelper(left *TreeNode, right *TreeNode) bool {
 
 	return left.Val == right.Val && isSymmetricHelper(left.Left, right.Right) && isSymmetricHelper(left.Right, right.Left) // 此处放入的节点的顺序是对称的
 }
+
+// 二叉树的层序遍历
+// 广度优先搜索
+// 只使用一个队列，使用size控制该层节点的遍历，size为0时，该层节点遍历完毕
+// 也可以使用两个队列，队列1存储该层节点，队列2存储下一层节点
+func levelOrder(root *TreeNode) [][]int {
+	res := [][]int{}
+	if root == nil {
+		return res
+	}
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		size := len(queue)
+		innerList := []int{}
+		for size > 0 {
+			// 出队
+			node := queue[0]
+			queue = queue[1:]
+			// visit(node)
+			innerList = append(innerList, node.Val)
+			// 非空子节点入队
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+			size--
+		}
+		res = append(res, innerList)
+	}
+	return res
+}
+
+// 将有序数组转化为二叉搜索树
+// 递归，中序遍历 逆向
+func sortedArrayToBST(nums []int) *TreeNode {
+	return ArrayToBSTHelper(nums, 0, len(nums)-1)
+}
+
+func ArrayToBSTHelper(nums []int, left, right int) *TreeNode {
+	if left > right {
+		return nil
+	}
+	mid := (left + right) / 2
+	root := &TreeNode{nums[mid], nil, nil}
+	root.Left = ArrayToBSTHelper(nums, left, mid-1)
+	root.Right = ArrayToBSTHelper(nums, mid+1, right)
+	return root
+}

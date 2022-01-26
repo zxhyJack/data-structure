@@ -63,3 +63,18 @@ func TestIsSymmetric(t *testing.T) {
 	t.Log(isSymmetric1(root))
 	t.Log(isSymmetric2(root))
 }
+
+func TestLevelOrder(t *testing.T) {
+	root := &TreeNode{
+		Val:   1,
+		Left:  &TreeNode{2, nil, &TreeNode{3, nil, nil}},
+		Right: &TreeNode{2, &TreeNode{3, nil, nil}, nil},
+	}
+	t.Log(levelOrder(root))
+}
+
+func TestSortedArrayToBST(t *testing.T) {
+	nums := []int{0, 1, 2, 3, 4}
+	root := sortedArrayToBST(nums)
+	t.Log(levelOrder(root))
+}
