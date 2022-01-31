@@ -28,6 +28,7 @@ func climbStairs2(n int) int {
 	return cur
 }
 
+// 爬楼梯3
 // 使用数组来存储每一级的结果
 func climbStairs3(n int) int {
 	if n < 2 {
@@ -42,6 +43,7 @@ func climbStairs3(n int) int {
 	return dp[n]
 }
 
+// go的另一种写法
 func climbStairs4(n int) int {
 	if n < 2 {
 		return 1

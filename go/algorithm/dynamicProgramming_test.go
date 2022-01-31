@@ -1,6 +1,8 @@
 package algorithm
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestClimbStairs1(t *testing.T) {
 	t.Log(climbStairs1(5))
@@ -45,4 +47,16 @@ func TestRob(t *testing.T) {
 func TestRob2(t *testing.T) {
 	nums := []int{1, 2, 3, 1}
 	t.Log(rob2(nums))
+}
+
+func TestShuffle(t *testing.T) {
+	s := Constructor([]int{1, 2, 3})
+	t.Log(s.data)
+	t.Log(s.Reset())
+	t.Log(s.Shuffle())
+	t.Log(s.Shuffle())
+	t.Log(s.Shuffle())
+	t.Log(s.Shuffle())
+	t.Log(s.Shuffle())
+	t.Log(s.Shuffle())
 }
