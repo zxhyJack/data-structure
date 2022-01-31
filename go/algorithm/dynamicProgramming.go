@@ -84,3 +84,81 @@ func maxProfit2(prices []int) int {
 	}
 	return maxProfit
 }
+
+// 最大子序和
+// 动态规划
+// 转移公式：dp[i] = max(dp[i-1], 0) + dp[i]
+// 或 dp[i] = max(dp[i-1]+nums[i], nums[i])
+func maxSubArray(nums []int) int {
+	dp := make([]int, len(nums))
+	maxVal := nums[0]
+	dp[0] = nums[0] // 边界条件
+	for i := 1; i < len(nums); i++ {
+		// if dp[i-1] < 0 {
+		// 	dp[i] = nums[i]
+		// } else {
+		// 	dp[i] = dp[i-1] + nums[i]
+		// }
+		dp[i] = max(dp[i-1], 0) + nums[i] // 转移公式
+		maxVal = max(maxVal, dp[i])       // 记录最大值
+	}
+	return maxVal
+}
+
+// 最大子序和
+// 动态规划优化
+// 无需使用数组存储每一项的前最大子序和
+// 仅使用变量存储前一个变量的最大子序和
+func maxSubArray2(nums []int) int {
+	cur := nums[0]
+	maxVal := nums[0]
+	for i := 1; i < len(nums); i++ {
+		cur = max(cur, 0) + nums[i]
+		maxVal = max(maxVal, cur)
+	}
+	return maxVal
+}
+
+// 打家劫舍
+// 动态规划 使用额外数组
+// dp[i] = max(dp[i-2]+nums[i], dp[i-1])
+func rob(nums []int) int {
+	length := len(nums)
+	if length == 0 {
+		return 0
+	}
+	if length == 1 {
+		return nums[0]
+	}
+
+	dp := make([]int, length)
+	dp[0] = nums[0]
+	dp[1] = max(nums[0], nums[1])
+	for i := 2; i < length; i++ {
+		dp[i] = max(dp[i-2]+nums[i], dp[i-1])
+	}
+	return dp[length-1]
+}
+
+// 打家劫舍
+// 动态规划优化 使用滚动数组简化空间复杂度
+// dp[i] = max(dp[i-2]+nums[i], dp[i-1])
+func rob2(nums []int) int {
+	length := len(nums)
+	if length == 0 {
+		return 0
+	}
+	if length == 1 {
+		return nums[0]
+	}
+
+	pre1 := nums[0]
+	pre2 := max(nums[0], nums[1])
+	cur := max(nums[0], nums[1]) // 第一个指向nums[2]
+	for i := 2; i < length; i++ {
+		cur = max(pre1+nums[i], pre2)
+		pre1 = pre2
+		pre2 = cur
+	}
+	return cur
+}
