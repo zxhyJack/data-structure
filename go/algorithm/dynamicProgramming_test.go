@@ -1,6 +1,8 @@
 package algorithm
 
 import (
+	"fmt"
+	"math"
 	"testing"
 )
 
@@ -59,4 +61,13 @@ func TestShuffle(t *testing.T) {
 	t.Log(s.Shuffle())
 	t.Log(s.Shuffle())
 	t.Log(s.Shuffle())
+}
+
+func TestMinStack(t *testing.T) {
+	arr := []int{math.MaxInt64}
+	fmt.Println(arr)
+	a := 1000101
+	fmt.Println(1 << 0 & a)
+	s := "()"
+	fmt.Println(isValid2(s))
 }
