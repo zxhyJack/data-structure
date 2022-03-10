@@ -142,7 +142,7 @@ func isValidBST3(root *TreeNode) bool {
 	return true
 }
 
-// 对称二叉树
+// 对称二叉树1
 // 迭代
 func isSymmetric1(root *TreeNode) bool {
 	if root == nil {
@@ -174,7 +174,7 @@ func isSymmetric1(root *TreeNode) bool {
 	return true
 }
 
-// 对称二叉树
+// 对称二叉树2
 // 递归
 func isSymmetric2(root *TreeNode) bool {
 	return isSymmetricHelper(root.Left, root.Right)
