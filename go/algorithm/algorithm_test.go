@@ -90,3 +90,39 @@ func TestHasCycle(t *testing.T) {
 	// t.Log(hasCycle(list2))
 	t.Log(hasCycle2(list))
 }
+
+func TestRotate(t *testing.T) {
+	nums := []int{1, 2, 3, 4, 5, 6, 7}
+
+	rotate(nums, 3)
+
+	tmp := make([][]int, 3)
+	for i := range tmp {
+		tmp[i] = make([]int, 3)
+	}
+	fmt.Println(tmp, len(tmp), len(tmp[0]))
+}
+
+func TestFirst(t *testing.T) {
+	var a interface{}
+	var i int = 5
+	s := "Hello World"
+	a = i
+	fmt.Println(a)
+	a = s
+	fmt.Println(a)
+
+	s1 := s[:]
+	fmt.Println(s1)
+	fmt.Printf("%p %p\n", &s, &s1)
+
+	in := [3]string{"a", "b", "c"}
+	var out []*string
+
+	for _, v := range in {
+		v := v
+		out = append(out, &v)
+	}
+
+	fmt.Println("Values:", *out[0], *out[1], *out[2])
+}

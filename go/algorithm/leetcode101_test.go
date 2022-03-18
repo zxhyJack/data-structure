@@ -67,14 +67,14 @@ func TestIsIsomorphic(t *testing.T) {
 	fmt.Println(isIsomorphic("foo", "bar"))
 }
 
-func TestLengthOfLast(t *testing.T) {
-	str := "hello newcoder"
-	fmt.Println(lengthOfLast(str))
-	var a string
-	fmt.Println(a)
-	b := make([]byte, 10)
-	fmt.Println(b[0])
-	c := "hello"
-	fmt.Println(c[0])
-	
-}
+// func TestLengthOfLast(t *testing.T) {
+// 	str := "hello newcoder"
+// 	fmt.Println(lengthOfLast(str))
+// 	var a string
+// 	fmt.Println(a)
+// 	b := make([]byte, 10)
+// 	fmt.Println(b[0])
+// 	c := "hello"
+// 	fmt.Println(c[0])
+
+// }
